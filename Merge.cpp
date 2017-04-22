@@ -28,8 +28,8 @@ void mergealgo(int left, int right) {
 	for (; j <= right; j++) {
 		tmp[idx++] = arr[j];
 	}
-	for (int pos = 0; pos <= right-left; pos++) {
-		arr[pos+left] = tmp[pos];
+	for (int pos = 0; pos <= right - left; pos++) {
+		arr[pos + left] = tmp[pos];
 	}
 }
 
@@ -50,7 +50,7 @@ int main() {
 	scanf("%d", &n);
 	for (int i = 0; i < n; i++)
 		scanf("%d", &arr[i]);
-	mergesort(0, n-1);
+	mergesort(0, n - 1);
 	for (int i = 0; i < n; i++)
 		printf("%d ", arr[i]);
 }
