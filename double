@@ -27,16 +27,17 @@ linklist::linklist() {
 }
 
 linklist::~linklist() {
-	if (head != NULL) {
-		node* curPos = head;
-		node* curPosnext = curPos->next;
-		while (curPos != tail) {
-			delete(curPos);
-			curPos = curPosnext;
-			curPosnext = curPos->next;
-		}
-		delete(curPos);
+	node* cur = head;
+	if (cur == NULL) {
+		return;
 	}
+	node* curNext = head->next;
+	while (curNext != NULL) {
+		delete(cur);
+		cur = curNext;
+		curNext = cur->next;
+	}
+	delete(cur);
 }
 
 void linklist::insertHead(int num) {
