@@ -1,10 +1,9 @@
 #include <iostream>
 using namespace std;
-
 struct node {
 	int elem;
-	node* next;
 	node* prev;
+	node* next;
 };
 class linklist {
 public:
@@ -12,20 +11,18 @@ public:
 	~linklist();
 	node* head;
 	node* tail;
-	int size;
 	void insertHead(int num);
 	void insertTail(int num);
-	void print();
 	int deleteHead();
 	int deleteTail();
+	int getSize();
+	void print();
+	int size;
 };
-
 linklist::linklist() {
-	head = NULL;
-	tail = NULL;
+	head = tail = NULL;
 	size = 0;
 }
-
 linklist::~linklist() {
 	node* cur = head;
 	if (cur == NULL) {
@@ -39,7 +36,6 @@ linklist::~linklist() {
 	}
 	delete(cur);
 }
-
 void linklist::insertHead(int num) {
 	node* tmp = new node();
 	tmp->elem = num;
@@ -47,13 +43,12 @@ void linklist::insertHead(int num) {
 		head = tail = tmp;
 	}
 	else {
-		tmp->next = head;
 		head->prev = tmp;
+		tmp->next = head;
 		head = tmp;
 	}
 	size++;
 }
-
 void linklist::insertTail(int num) {
 	node* tmp = new node();
 	tmp->elem = num;
@@ -67,76 +62,66 @@ void linklist::insertTail(int num) {
 	}
 	size++;
 }
-
 int linklist::deleteHead() {
-	int returnnum;
+	int returnnum = head->elem;
 	if (size == 0) {
-		cout << "비었" << endl;
 		return -1;
 	}
 	else if (size == 1) {
-		returnnum = head->elem;
-		delete(head);
 		head = tail = NULL;
 	}
 	else {
-		returnnum = head->elem;
-		node* target = head;
-		head = head->next;
-		delete(target);
-		head->prev = NULL;
+		node* tmp = head->next;
+		tmp->prev = NULL;
+		delete(head);
+		head = tmp;
 	}
 	size--;
 	return returnnum;
 }
-
 int linklist::deleteTail() {
-	int returnnum;
+	int returnnum = tail->elem;
 	if (size == 0) {
-		cout << "비었" << endl;
 		return -1;
 	}
 	else if (size == 1) {
-		returnnum = head->elem;
-		delete(head);
 		head = tail = NULL;
 	}
 	else {
-		returnnum = tail->elem;
-		node* target = tail;
-		tail = tail->prev;
-		delete(target);
-		tail->next = NULL;
+		node* tmp = tail->prev;
+		tmp->next = NULL;
+		delete(tail);
+		tail = tmp;
 	}
 	size--;
 	return returnnum;
+}
+int linklist::getSize() {
+	return size;
 }
 void linklist::print() {
-	cout << "print : ";
 	for (node* tmp = head; tmp != NULL; tmp = tmp->next) {
-		cout << tmp->elem << " ";
+		printf("%d ", tmp->elem);
 	}
-	cout << endl;
 }
-
 int main() {
 #ifdef _CONSOLE
 	freopen("input.txt", "r", stdin);
 #endif
+	int n;
+	scanf("%d", &n);
 	linklist li;
-	for (int i = 1; i <= 10; i++)
-	{
-		li.insertHead(i);
-		li.print();
-	}
-	for (int i = 1; i <= 10; i++)
-	{
+	linklist ans;
+	for (int i = 1; i <= n; i++) {
 		li.insertTail(i);
-		li.print();
 	}
-	for (int i = 1; i <= 10; i++)
-	{
-		cout << li.deleteTail() << endl;
+	int num;
+	while (li.getSize() != 1) {
+		num = li.deleteHead();
+		ans.insertTail(num);
+		num = li.deleteHead();
+		li.insertTail(num);
 	}
+	ans.print();
 	li.print();
 }
